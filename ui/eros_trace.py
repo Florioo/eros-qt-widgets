@@ -47,6 +47,10 @@ class Ui_Form(object):
 
         self.horizontalLayout.addWidget(self.plotter_btn)
 
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
 
         self.verticalLayout.addWidget(self.frame)
 
