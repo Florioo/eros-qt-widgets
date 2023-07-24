@@ -1,10 +1,10 @@
 from typing import Dict
 
 
-from PySide2.QtCore import Qt, QRegExp
-from PySide2.QtWidgets import QDockWidget, QPushButton,QWidget,QWidget,QComboBox,QCheckBox,QFormLayout,QSpinBox
-from PySide2.QtCore import Signal, QTimer,QSettings
-from PySide2.QtGui import QRegExpValidator
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QDockWidget, QPushButton,QWidget,QWidget,QComboBox,QCheckBox,QFormLayout,QSpinBox
+from PySide6.QtCore import Signal, QTimer,QSettings, QRegularExpression
+from PySide6.QtGui import QRegularExpressionValidator
 
 from eros_core import Eros, ErosSerial,TransportStates
 from si_prefix import si_format
@@ -153,8 +153,8 @@ class UART_Handler():
         self.storage = storage
         
         # Only allow numbers in the baud combobox
-        reg_ex = QRegExp("[0-9]+")
-        input_validator = QRegExpValidator(reg_ex, self.baud_combobox)
+        reg_ex = QRegularExpression("[0-9]+")
+        input_validator = QRegularExpressionValidator(reg_ex, self.baud_combobox)
         self.baud_combobox.setValidator(input_validator)
 
         self.scan_button.clicked.connect(self.scan_uart_devices)

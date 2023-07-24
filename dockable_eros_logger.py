@@ -1,17 +1,17 @@
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QFormLayout, QDockWidget,QSpinBox, QListWidget, QLabel,QWidget, QTextEdit, QCheckBox
-from PySide2.QtGui import  QColor, QTextCursor
-from PySide2.QtCore import Signal, QSettings
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QFormLayout, QDockWidget,QSpinBox, QListWidget, QLabel,QWidget, QTextEdit, QCheckBox
+from PySide6.QtGui import  QColor, QTextCursor
+from PySide6.QtCore import Signal, QSettings
 
 from stransi import Ansi, SetAttribute, SetColor
 from stransi.attribute import Attribute
 
 from eros_core import Eros, TransportStates
 
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QApplication, QMainWindow, QDockWidget, QListWidget, QLabel,QPushButton,QWidget,QTextEdit,QSpinBox,QFormLayout, QFileDialog,QAction,QLineEdit,QStyle,QCheckBox
-from PySide2.QtGui import QFont, QColor
-from PySide2.QtCore import Signal, QObject, Slot, QSettings
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QMainWindow, QDockWidget, QListWidget, QLabel,QPushButton,QWidget,QTextEdit,QSpinBox,QFormLayout, QFileDialog,QLineEdit,QStyle,QCheckBox
+from PySide6.QtGui import QFont, QColor,QAction
+from PySide6.QtCore import Signal, QObject, Slot, QSettings
 
 import logging
 from logging.handlers import RotatingFileHandler

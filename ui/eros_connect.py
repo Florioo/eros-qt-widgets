@@ -3,15 +3,21 @@
 ################################################################################
 ## Form generated from reading UI file 'eros_connect.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+## Created by: Qt User Interface Compiler version 6.5.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QGroupBox,
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -118,7 +124,8 @@ class Ui_Form(object):
         self.traffic_label.setObjectName(u"traffic_label")
         self.traffic_label.setMinimumSize(QSize(0, 50))
         font1 = QFont()
-        font1.setFamily(u"Courier")
+        font1.setFamilies([u"Courier"])
+        font1.setPointSize(10)
         self.traffic_label.setFont(font1)
 
         self.formLayout_4.setWidget(2, QFormLayout.FieldRole, self.traffic_label)

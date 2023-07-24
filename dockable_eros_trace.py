@@ -2,10 +2,10 @@ import json
 import time
 import os
 
-from PySide2.QtWidgets import  QDockWidget,QTreeWidgetItem,QWidget,QStyle
-from PySide2.QtCore import Signal, Qt, QSettings,QTimer
-from PySide2.QtWidgets import  QDockWidget,QLineEdit, QLabel,QWidget,QSpinBox,QFormLayout,QAction,QFileDialog,QTreeWidget,QDoubleSpinBox,QCheckBox
-from PySide2.QtGui import QFont,QIcon
+from PySide6.QtWidgets import  QDockWidget,QTreeWidgetItem,QWidget,QStyle
+from PySide6.QtCore import Signal, Qt, QSettings,QTimer
+from PySide6.QtWidgets import  QDockWidget,QLineEdit, QLabel,QWidget,QSpinBox,QFormLayout,QFileDialog,QTreeWidget,QDoubleSpinBox,QCheckBox
+from PySide6.QtGui import QFont,QIcon,QAction
 
 from eros_core import Eros,TransportStates
 from .ui.eros_trace import Ui_Form

@@ -3,10 +3,10 @@ import threading
 from typing import Dict
 from queue import Queue
 
-from PySide2.QtGui import QColor
-from PySide2.QtWidgets import QDockWidget, QWidget, QScrollBar, QHBoxLayout, QLabel, QWidget, QSpinBox, QFormLayout
-from PySide2.QtGui import  QColor, QGuiApplication
-from PySide2.QtCore import  QSettings, Qt
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QDockWidget, QWidget, QScrollBar, QHBoxLayout, QLabel, QWidget, QSpinBox, QFormLayout
+from PySide6.QtGui import  QColor, QGuiApplication
+from PySide6.QtCore import  QSettings, Qt
 
 from eros_core import Eros, ResponseType, CLIResponse, CommandFrame, TransportStates
 
