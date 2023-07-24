@@ -11,17 +11,18 @@ from eros_core import Eros, TransportStates
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QDockWidget, QListWidget, QLabel,QPushButton,QWidget,QTextEdit,QSpinBox,QFormLayout, QFileDialog,QLineEdit,QStyle,QCheckBox
 from PySide6.QtGui import QFont, QColor,QAction
-from PySide6.QtCore import Signal, QObject, Slot, QSettings
+from PySide6.QtCore import Signal, QObject, Slot, QSettings,QTimer
 
 import logging
 from logging.handlers import RotatingFileHandler
-
+from queue import Queue
+from ochre import Color
 
 from functools import cached_property
 from typing import Dict
 import os
 import time
-
+from functools import cache
 
 COLOR_RED = "\033[91m"
 COLOR_GREEN = "\033[92m"
@@ -49,7 +50,9 @@ class QDockableErosLoggingWidget(QDockWidget):
         
         if font is not None:
             self.text_edit.setFont(font)
-            
+        
+        self.textbox_data_queue = Queue()
+        
         self.text_edit.setAutoFillBackground(False)
         self.text_edit.setStyleSheet(u"QTextEdit {background-color: " + self.background_color.name() + ";\ncolor: white }")
         self.text_edit.setReadOnly(True)
@@ -66,9 +69,29 @@ class QDockableErosLoggingWidget(QDockWidget):
         
         # Set central widget
         self.setWidget(self.text_edit)
-        self.data_signal.connect(self.append_text_to_output)
-        self.unidentified_data_signal.connect(self.append_unidentified_text_to_output)
-       
+        # self.data_signal.connect(self.append_text_to_output)
+        # self.unidentified_data_signal.connect(self.append_unidentified_text_to_output)
+        
+        timer = QTimer(self)
+        timer.timeout.connect(self.text_edit_append_task)
+        timer.start(100)
+
+    def text_edit_append_task(self):
+        if self.textbox_data_queue.empty():
+            return
+        buffer = []
+        while not self.textbox_data_queue.empty():
+            buffer.append(self.textbox_data_queue.get())
+
+        # while not self.textbox_data_queue.empty():
+        buffer = "<br>".join(buffer)
+        if len(buffer) > 0:
+            self.text_edit.append(buffer)
+    
+    @cache
+    def get_color(self,value:Color ):
+        return self.color_map(value.web_color.name)
+        
     def color_map(self, color):
         if color == "green":
             return "lightgreen"
@@ -78,10 +101,10 @@ class QDockableErosLoggingWidget(QDockWidget):
             return "yellow"
         return color
     
-
     def append_text_to_output(self, text):
         """Append text to the output text box
         """
+        
         instructions = Ansi(text.decode("utf-8")).instructions()
         packet = ""
         for instruction in instructions:
@@ -101,15 +124,15 @@ class QDockableErosLoggingWidget(QDockWidget):
                     if instruction.attribute == Attribute.NORMAL:
                         self.current_termial_color = None
                 elif isinstance(instruction, SetColor):
-                    self.current_termial_color = self.color_map(instruction.color.web_color.name)
+                    self.current_termial_color = self.get_color(instruction.color)
+            
 
         if self.log_file_handler is not None:
             self.log_file_handler.flush()
             
         # NOTE: append add a new line every time, this is not desired , because a line can contain multiple packets
         # Currently they will be split into multiple lines
-        self.text_edit.append(packet)
-
+        self.textbox_data_queue.put(packet)
     def append_unidentified_text_to_output(self, data:bytes):
         # Here we want to sanitize the data, so its nice and printable
         # This can contain any bytes, more effor is needed
@@ -130,14 +153,15 @@ class QDockableErosLoggingWidget(QDockWidget):
         # Add the data to the output
         self.append_text_to_output(data.encode())
         
+
     def set_eros_handle(self, eros:Eros):
         self.eros_handle = eros
 
         for channel in self.parameters.log_channels:
-            self.eros_handle.attach_channel_callback(channel, self.data_signal.emit)
+            self.eros_handle.attach_channel_callback(channel, self.append_text_to_output)
 
         if self.parameters.log_unidentified:
-            self.eros_handle.attach_fail_callback(self.unidentified_data_signal.emit)            
+            self.eros_handle.attach_fail_callback(self.append_unidentified_text_to_output)            
 
     def status_update_callback(self, status:TransportStates):
         if status == TransportStates.CONNECTED:
