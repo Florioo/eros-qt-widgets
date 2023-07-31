@@ -24,7 +24,7 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(250, 400)
-        Form.setMaximumSize(QSize(250, 400))
+        Form.setMaximumSize(QSize(350, 400))
         font = QFont()
         font.setPointSize(10)
         Form.setFont(font)
