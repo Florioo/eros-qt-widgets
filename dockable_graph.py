@@ -37,6 +37,7 @@ class QGraphWidget(QDockWidget):
         
         self.plots = {}
         self.data = {}
+        self.indexes = {}
         
         self.graphWidget = pg.PlotWidget()
         self.graphWidget.setBackground('w')
@@ -47,13 +48,12 @@ class QGraphWidget(QDockWidget):
         self.max_points = max_points
         
         #Create a circular buffer for the time index        
-        if index is not None:
-            self.time_index = collections.deque(maxlen=self.max_points)
-            self.index = index
+        self.index = index
             
         # Create plots for each column
         for i,column in enumerate(columns):
             plot_color = self.PLOT_COLORS[i%len(self.PLOT_COLORS)]
+            self.indexes[column] = collections.deque(maxlen=self.max_points) 
             self.data[column] = collections.deque(maxlen=self.max_points)
             self.plots[column] = self.graphWidget.plot(pen=plot_color,
                                                        name=column)
@@ -67,16 +67,8 @@ class QGraphWidget(QDockWidget):
         for key,value in data.items():
             if key in self.data:
                 self.data[key].append(float(value))
-                
-        # Update the index
-        if self.time_index is not None:
-            self.time_index.append(data[self.index])
-            
-        if self.time_index is not None:
-            index = list(self.time_index)
-        else:
-            index = list(range(len(self.data[column])))
-        
+                self.indexes[key].appendleft(float(data[self.index]))
+
         if time.time() - self.last_update < 1/self.max_update_rate:
             return
         
@@ -84,7 +76,10 @@ class QGraphWidget(QDockWidget):
         
         # Update plots
         for column in self.data.keys():
-            self.plots[column].setData(index, list(self.data[column]))
+            if len(self.data[column]) == 0:
+                continue
+                
+            self.plots[column].setData(list(self.indexes[column]), list(self.data[column]))
     
     # If closed destroy the widget
     def closeEvent(self, event):

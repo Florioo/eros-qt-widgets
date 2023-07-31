@@ -82,6 +82,25 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.data_viewer)
 
+        self.frame_2 = QFrame(Form)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_2 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.clear_btn = QPushButton(self.frame_2)
+        self.clear_btn.setObjectName(u"clear_btn")
+        self.clear_btn.setMaximumSize(QSize(100, 16777215))
+
+        self.horizontalLayout_2.addWidget(self.clear_btn)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout.addWidget(self.frame_2)
+
 
         self.retranslateUi(Form)
 
@@ -94,5 +113,6 @@ class Ui_Form(object):
         self.logger_btn.setText(QCoreApplication.translate("Form", u"Start logger", None))
         self.plotter_btn.setText(QCoreApplication.translate("Form", u"Graph selected", None))
         self.label.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.clear_btn.setText(QCoreApplication.translate("Form", u"Clear list", None))
     # retranslateUi
 

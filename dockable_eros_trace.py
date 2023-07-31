@@ -45,7 +45,8 @@ class QErosTraceWidget(QDockWidget):
         self.ui.logger_btn.clicked.connect(self.toggle_csv_logging)
         self.ui.udp_btn.clicked.connect(self.toggle_udp_output)
         self.ui.plotter_btn.clicked.connect(self.create_plotter)
-
+        self.ui.clear_btn.clicked.connect(lambda: self.ui.data_viewer.clear())
+        
         self.parameters = ConfigWidget( settings)
         
         # Set central widget
@@ -65,8 +66,15 @@ class QErosTraceWidget(QDockWidget):
     def update_table(self, text:bytes):
         """Append text to the output text box
         """
-        obj = json.loads(text.decode("utf-8"))
-        
+        text = text.decode("utf-8")
+        if text[0] == "{":
+            obj = json.loads(text)
+        else:
+            # Load csv
+            obj = {}
+            for i, key in enumerate(text.split(",")):
+                obj[f"item {i}"] = key
+                
         if self.csv_output.is_open():
             self.csv_output.write(obj)
         
@@ -80,6 +88,7 @@ class QErosTraceWidget(QDockWidget):
             if not graph.isOpen():
                 self.graphs.remove(graph)
                 break
+            
             graph.update(_obj)
             
             
