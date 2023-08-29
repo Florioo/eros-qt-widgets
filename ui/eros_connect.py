@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'eros_connect.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.1
+## Created by: Qt User Interface Compiler version 6.5.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -93,6 +93,31 @@ class Ui_Form(object):
         self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.tcp_port)
 
         self.tabWidget.addTab(self.tcp_tab, "")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.formLayout_3 = QFormLayout(self.tab)
+        self.formLayout_3.setObjectName(u"formLayout_3")
+        self.label_8 = QLabel(self.tab)
+        self.label_8.setObjectName(u"label_8")
+
+        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_8)
+
+        self.udp_host = QLineEdit(self.tab)
+        self.udp_host.setObjectName(u"udp_host")
+
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.udp_host)
+
+        self.label_7 = QLabel(self.tab)
+        self.label_7.setObjectName(u"label_7")
+
+        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_7)
+
+        self.udp_port = QLineEdit(self.tab)
+        self.udp_port.setObjectName(u"udp_port")
+
+        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.udp_port)
+
+        self.tabWidget.addTab(self.tab, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
 
@@ -140,7 +165,7 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(Form)
@@ -161,6 +186,9 @@ class Ui_Form(object):
         self.label_2.setText(QCoreApplication.translate("Form", u"Host", None))
         self.label_3.setText(QCoreApplication.translate("Form", u"Port", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tcp_tab), QCoreApplication.translate("Form", u"TCP", None))
+        self.label_8.setText(QCoreApplication.translate("Form", u"Host", None))
+        self.label_7.setText(QCoreApplication.translate("Form", u"Port", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("Form", u"UDP", None))
         self.connect_disconnect_btn.setText(QCoreApplication.translate("Form", u"Connect", None))
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"Status", None))
         self.label_5.setText(QCoreApplication.translate("Form", u"Traffic", None))
