@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QDockWidget, QPushButton,QWidget,QWidget,QComboBox
 from PySide6.QtCore import Signal, QTimer,QSettings, QRegularExpression
 from PySide6.QtGui import QRegularExpressionValidator
 
-from eros_core import Eros, ErosSerial,TransportStates,ErosTCP,ErosUDP
+from eros_core import Eros, ErosSerial,TransportStates,ErosTCP,ErosUDP,ErosZMQ
 from si_prefix import si_format
 
 from .ui.eros_connect import Ui_Form
@@ -45,6 +45,7 @@ class QDockableErosConnectWidget(QDockWidget):
         self.uart_handler = UART_Handler(self.ui.uart_baud_selector, self.ui.uart_device_selector, self.ui.uart_device_scan, self.storage)
         self.tcp_handler = TCP_Handler(self.ui.tcp_host, self.ui.tcp_port, self.storage)
         self.udp_handler = UDP_Handler(self.ui.udp_host, self.ui.udp_port, self.storage)
+        self.zmq_handler = ZMQ_Handler(self.ui.zmq_host, self.ui.zmq_port, self.storage)
         
         # Connect button
         self.ui.connect_disconnect_btn.clicked.connect(self.toggle_connect_button)
@@ -128,6 +129,9 @@ class QDockableErosConnectWidget(QDockWidget):
 
             elif self.ui.tabWidget.currentIndex() == 2:
                 self.eros = self.udp_handler.connect()
+                
+            elif self.ui.tabWidget.currentIndex() == 3:
+                self.eros = self.zmq_handler.connect()
 
             self.eros_handle_signal.emit(self.eros)
 
@@ -321,7 +325,48 @@ class UDP_Handler():
         self.ip_lineedit.setText(config.get("ip",""))
         self.port_lineedit.setText(config.get("port","5555"))
         
+class ZMQ_Handler():
+    STORAGE_LOCATION = "eros_zmq_connection"
+    def __init__(self, ip_lineedit, port_lineedit,storage:QSettings):
+        self.ip_lineedit: QLineEdit = ip_lineedit
+        #Disable the ip line edit
+        self.ip_lineedit.setEnabled(False)
         
+        self.port_lineedit: QLineEdit = port_lineedit
+        self.storage = storage
+        self.load_config()
+   
+    def connect(self,auto_reconnect=True):
+    
+        port = int(self.port_lineedit.text())
+        ip = self.ip_lineedit.text()
+        
+        # Connect to the device
+        eros_transport_handle = ErosZMQ(port)
+        eros_handle = Eros(eros_transport_handle)
+        
+        self.save_config()
+        
+        return eros_handle
+    
+    def save_config(self):
+        config  ={
+            "ip": self.ip_lineedit.text(),
+            "port": self.port_lineedit.text(),
+        }
+        self.storage.setValue(self.STORAGE_LOCATION, config)
+        
+    def load_config(self):
+        config = self.storage.value(self.STORAGE_LOCATION, {})
+        
+        if config == {}:
+            return
+        
+        # Only set the values if they are valid
+        self.ip_lineedit.setText(config.get("ip","127.0.0.1"))
+        self.port_lineedit.setText(config.get("port","2000"))
+        
+           
     
         
 # Override the QSpinBox wheel event to ignore it

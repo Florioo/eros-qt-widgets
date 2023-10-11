@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'eros_connect.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.2
+## Created by: Qt User Interface Compiler version 6.5.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -93,31 +93,56 @@ class Ui_Form(object):
         self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.tcp_port)
 
         self.tabWidget.addTab(self.tcp_tab, "")
-        self.tab = QWidget()
-        self.tab.setObjectName(u"tab")
-        self.formLayout_3 = QFormLayout(self.tab)
+        self.udp_tab = QWidget()
+        self.udp_tab.setObjectName(u"udp_tab")
+        self.formLayout_3 = QFormLayout(self.udp_tab)
         self.formLayout_3.setObjectName(u"formLayout_3")
-        self.label_8 = QLabel(self.tab)
+        self.label_8 = QLabel(self.udp_tab)
         self.label_8.setObjectName(u"label_8")
 
         self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_8)
 
-        self.udp_host = QLineEdit(self.tab)
+        self.udp_host = QLineEdit(self.udp_tab)
         self.udp_host.setObjectName(u"udp_host")
 
         self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.udp_host)
 
-        self.label_7 = QLabel(self.tab)
+        self.label_7 = QLabel(self.udp_tab)
         self.label_7.setObjectName(u"label_7")
 
         self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_7)
 
-        self.udp_port = QLineEdit(self.tab)
+        self.udp_port = QLineEdit(self.udp_tab)
         self.udp_port.setObjectName(u"udp_port")
 
         self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.udp_port)
 
-        self.tabWidget.addTab(self.tab, "")
+        self.tabWidget.addTab(self.udp_tab, "")
+        self.zmq_tab = QWidget()
+        self.zmq_tab.setObjectName(u"zmq_tab")
+        self.formLayout_5 = QFormLayout(self.zmq_tab)
+        self.formLayout_5.setObjectName(u"formLayout_5")
+        self.zmq_host = QLineEdit(self.zmq_tab)
+        self.zmq_host.setObjectName(u"zmq_host")
+
+        self.formLayout_5.setWidget(0, QFormLayout.FieldRole, self.zmq_host)
+
+        self.label_10 = QLabel(self.zmq_tab)
+        self.label_10.setObjectName(u"label_10")
+
+        self.formLayout_5.setWidget(0, QFormLayout.LabelRole, self.label_10)
+
+        self.label_9 = QLabel(self.zmq_tab)
+        self.label_9.setObjectName(u"label_9")
+
+        self.formLayout_5.setWidget(1, QFormLayout.LabelRole, self.label_9)
+
+        self.zmq_port = QLineEdit(self.zmq_tab)
+        self.zmq_port.setObjectName(u"zmq_port")
+
+        self.formLayout_5.setWidget(1, QFormLayout.FieldRole, self.zmq_port)
+
+        self.tabWidget.addTab(self.zmq_tab, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
 
@@ -165,7 +190,7 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(Form)
@@ -188,7 +213,10 @@ class Ui_Form(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tcp_tab), QCoreApplication.translate("Form", u"TCP", None))
         self.label_8.setText(QCoreApplication.translate("Form", u"Host", None))
         self.label_7.setText(QCoreApplication.translate("Form", u"Port", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("Form", u"UDP", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.udp_tab), QCoreApplication.translate("Form", u"UDP", None))
+        self.label_10.setText(QCoreApplication.translate("Form", u"Host", None))
+        self.label_9.setText(QCoreApplication.translate("Form", u"Port", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.zmq_tab), QCoreApplication.translate("Form", u"ZMQ", None))
         self.connect_disconnect_btn.setText(QCoreApplication.translate("Form", u"Connect", None))
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"Status", None))
         self.label_5.setText(QCoreApplication.translate("Form", u"Traffic", None))
