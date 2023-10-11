@@ -1,4 +1,3 @@
-import click
 import threading
 import zmq as pyzmq
 
