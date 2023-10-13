@@ -63,6 +63,8 @@ class QDockableErosConnectWidget(QDockWidget):
         
         if self.parameters.zmq_enable:
             self.zmq_broker = ErosZMQBroker("127.0.0.1", 2000)
+    
+        self.load_config()
         
     def update_ui(self):
         if self.eros is None:
@@ -153,10 +155,33 @@ class QDockableErosConnectWidget(QDockWidget):
             self.ui.tabWidget.setEnabled(True)
             self.ui.connect_disconnect_btn.setText("Connect")
             
+    
+    def save_config(self):
+        config  ={
+            "selected_tab": self.ui.tabWidget.currentIndex(),
+        }
 
-
+        self.storage.setValue(self.STORAGE_LOCATION, config)
+        
+        self.uart_handler.save_config()
+        self.tcp_handler.save_config()
+        self.udp_handler.save_config()
+        self.zmq_handler.save_config()
+        
+    def load_config(self):
+        config = self.storage.value(self.STORAGE_LOCATION, {})
+        
+        if config == {}:
+            return
+        
+        # Only set the values if they are valid
+        self.ui.tabWidget.setCurrentIndex(config.get("selected_tab",0))
+        
 class UART_Handler():
     STORAGE_LOCATION = "eros_uart_connection"
+    
+    loaded_port = None
+    
     def __init__(self, baud_combobox, device_combobox, scan_button,storage:QSettings):
         self.device_combobox:QComboBox = device_combobox
         self.baud_combobox:QComboBox = baud_combobox
@@ -174,20 +199,23 @@ class UART_Handler():
         self.load_config()
         
     def scan_uart_devices(self):
-        # Get current selection
-        current_selected_port =  self.uart_get_current_port()
-        
-        if current_selected_port is not None:
-            current_selected_port = current_selected_port
-            
+        if self.loaded_port is not None:
+            current_selected_port = self.loaded_port
+            self.loaded_port = None
+        else:            
+            # Get current selection
+            current_selected_port =  self.uart_get_current_port()
+
         self.device_combobox.clear()
         
         serial_ports = ErosSerial.get_serial_ports()
+        
         for port in serial_ports:
             if port.vid in UART_VID_MAP:
                 self.device_combobox.addItem(f"{port.port} ({UART_VID_MAP[port.vid]})")
             else:
                 self.device_combobox.addItem(f"{port.port} (Unknown)")
+        
         self.uart_device_list = serial_ports
         
         # Restore selection
@@ -230,7 +258,7 @@ class UART_Handler():
     def save_config(self):
         config  ={
             "uart_baud": self.baud_combobox.currentText(),
-            "uart_device": self.device_combobox.currentText(),
+            "uart_device": self.uart_device_list[self.device_combobox.currentIndex()].port,
         }
 
         self.storage.setValue(self.STORAGE_LOCATION, config)
@@ -243,7 +271,7 @@ class UART_Handler():
         
         # Only set the values if they are valid
         self.baud_combobox.setCurrentText(config.get("uart_baud","2000000"))
-        self.device_combobox.setCurrentText(config.get("uart_device",""))
+        self.loaded_port = config.get("uart_device")
         
         # Update the list of devices
         self.scan_uart_devices()
