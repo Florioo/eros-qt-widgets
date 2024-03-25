@@ -207,7 +207,7 @@ class QErosTraceWidget(QDockWidget):
 
 
 class QErosTraceConfigWidget(QGenericSettingsWidget):
-    class Config(BaseModel):
+    class Model(BaseModel):
         udp_ip: str = "127.0.0.1"
         udp_port: int = 1234
         csv_path: str = os.path.expanduser("~/Desktop/")
@@ -285,8 +285,8 @@ class QErosTraceConfigWidget(QGenericSettingsWidget):
         self.csv_path_input.setText(path)
 
     @property
-    def data(self) -> Config:
-        return QErosTraceConfigWidget.Config(
+    def data(self) -> Model:
+        return QErosTraceConfigWidget.Model(
             udp_ip=self.udp_ip_input.text(),
             udp_port=self.udp_port_input.value(),
             csv_path=self.csv_path_input.text(),
@@ -297,7 +297,7 @@ class QErosTraceConfigWidget(QGenericSettingsWidget):
         )
 
     @data.setter
-    def data(self, config: Config):
+    def data(self, config: Model):
         self.udp_ip_input.setText(config.udp_ip)
         self.udp_port_input.setValue(config.udp_port)
         self.csv_path_input.setText(config.csv_path)
