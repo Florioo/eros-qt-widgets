@@ -37,7 +37,7 @@ class QErosTraceWidget(QDockWidget):
     csv_output: CSVOutput
 
     def __init__(self, parent, config_widget: "QErosTraceConfigWidget", settings: QSettings) -> None:
-        super().__init__("Eros Trace", parent)
+        super().__init__("Eros Trace", parent, objectName="eros_trace_widget")  # type: ignore
 
         self.main_widget = QWidget()
         self.config = config_widget.data

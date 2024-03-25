@@ -29,7 +29,7 @@ class QErosTerminalWidget(QDockWidget):
     background_color = QColor(40, 40, 40)
 
     def __init__(self, parent, config_widget: "ErosTerminalConfigWidget", font: QFont) -> None:
-        super().__init__("Eros Terminal", parent)
+        super().__init__("Eros Terminal", parent, objectName="eros_terminal_widget")  # type: ignore
 
         self.receive_queue = Queue()
 

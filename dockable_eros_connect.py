@@ -33,7 +33,7 @@ class QDockableErosConnectWidget(QDockWidget):
     eros_connection_change_signal = Signal(TransportStates)
 
     def __init__(self, parent, config_widget: "ErosConnectConfigWidget", settings: QSettings):
-        super().__init__("Eros Connect", parent)
+        super().__init__("Eros Connect", parent, objectName="eros_connect_widget")  # type: ignore
 
         self.main_widget = QWidget()
 
@@ -198,7 +198,7 @@ class UART_Handler:
         self.device_combobox: QComboBox = device_combobox
         self.baud_combobox: QComboBox = baud_combobox
         self.scan_button: QPushButton = scan_button
-        self.uart_device_list = None
+        self.uart_device_list = []
         self.storage = storage
 
         # Only allow numbers in the baud combobox
@@ -268,7 +268,8 @@ class UART_Handler:
         return eros_handle
 
     def save_config(self):
-        assert self.uart_device_list is not None
+        if self.device_combobox.currentIndex() == -1:
+            return
 
         config = {
             "uart_baud": self.baud_combobox.currentText(),

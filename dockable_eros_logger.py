@@ -42,7 +42,7 @@ class QDockableErosLoggingWidget(QDockWidget):
     log_file_handler = None
 
     def __init__(self, parent, config: "LoggerConfigWidget", font=None):
-        super().__init__("Eros Logger", parent)
+        super().__init__("Eros Logger", parent, objectName="eros_logger_widget")  # type: ignore
 
         self.output_lines = []
         self.config_widget = config
