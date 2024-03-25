@@ -5,7 +5,7 @@ from typing import Dict, List
 
 import pandas as pd
 import pyqtgraph as pg
-from PySide6.QtWidgets import QDockWidget
+from qtpy.QtWidgets import QDockWidget
 
 
 class QGraphWidget(QDockWidget):

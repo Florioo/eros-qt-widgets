@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'eros_trace.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.0
+## Created by: Qt User Interface Compiler version 6.6.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -53,7 +53,7 @@ class Ui_Form(object):
 
         self.horizontalLayout.addWidget(self.plotter_btn)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
@@ -74,7 +74,7 @@ class Ui_Form(object):
         __qtreewidgetitem.setText(0, u"1");
         self.data_viewer.setHeaderItem(__qtreewidgetitem)
         self.data_viewer.setObjectName(u"data_viewer")
-        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.data_viewer.sizePolicy().hasHeightForWidth())
@@ -94,7 +94,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.clear_btn)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 

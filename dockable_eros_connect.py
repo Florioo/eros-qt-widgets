@@ -2,9 +2,9 @@ from typing import Dict
 
 from eros_core import Eros, ErosSerial, ErosTCP, ErosUDP, ErosZMQ, TransportStates
 from pydantic import BaseModel
-from PySide6.QtCore import QRegularExpression, QSettings, Qt, QTimer, Signal
-from PySide6.QtGui import QRegularExpressionValidator
-from PySide6.QtWidgets import (
+from qtpy.QtCore import QRegularExpression, QSettings, Qt, QTimer, Signal
+from qtpy.QtGui import QRegularExpressionValidator
+from qtpy.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDockWidget,
