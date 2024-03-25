@@ -420,7 +420,7 @@ class ZMQ_Handler:
 
 
 class ErosConnectConfigWidget(QGenericSettingsWidget):
-    class config(BaseModel):
+    class Model(BaseModel):
         zmq_enable: bool = False
         auto_reconnect: bool = True
 
@@ -442,13 +442,13 @@ class ErosConnectConfigWidget(QGenericSettingsWidget):
         self.auto_reconnect_input.stateChanged.connect(self._on_value_changed)
 
     @property
-    def data(self) -> config:
-        return ErosConnectConfigWidget.config(
+    def data(self) -> Model:
+        return ErosConnectConfigWidget.Model(
             zmq_enable=self.zmq_enable_input.isChecked(),
             auto_reconnect=self.auto_reconnect_input.isChecked(),
         )
 
     @data.setter
-    def data(self, config: config):
+    def data(self, config: Model):
         self.zmq_enable_input.setChecked(config.zmq_enable)
         self.auto_reconnect_input.setChecked(config.auto_reconnect)

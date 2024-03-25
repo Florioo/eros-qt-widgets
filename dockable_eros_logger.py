@@ -190,7 +190,6 @@ class QDockableErosLoggingWidget(QDockWidget):
 
 
 class LoggerConfigWidget(QGenericSettingsWidget):
-    STORAGE_NAME = "eros_logger"
 
     class Model(BaseModel):
         log_unidentified: bool = False

@@ -1,7 +1,7 @@
 import threading
 from queue import Queue
 
-import termqt
+from termqt.terminal_widget import Terminal  # type: ignore
 from eros_core import CLIResponse, CommandFrame, Eros, ResponseType, TransportStates
 from pydantic import BaseModel
 from qt_settings import QGenericSettingsWidget
@@ -35,7 +35,7 @@ class QErosTerminalWidget(QDockWidget):
 
         self.config = config_widget.data
 
-        self.terminal = termqt.Terminal(
+        self.terminal = Terminal(
             width=200,
             height=200,
             font_size=font.pointSize(),
@@ -148,7 +148,7 @@ class QErosTerminalWidget(QDockWidget):
 class ErosTerminalConfigWidget(QGenericSettingsWidget):
     STORAGE_NAME = "eros_terminal"
 
-    class Config(BaseModel):
+    class Model(BaseModel):
         main_channel: int = 5
         aux_channel: int = 6
         max_line_history: int = 200
@@ -182,15 +182,15 @@ class ErosTerminalConfigWidget(QGenericSettingsWidget):
         self.max_line_history_input.valueChanged.connect(self._on_value_changed)
 
     @property
-    def data(self) -> Config:
-        return ErosTerminalConfigWidget.Config(
+    def data(self) -> Model:
+        return ErosTerminalConfigWidget.Model(
             main_channel=self.main_channel_input.value(),
             aux_channel=self.aux_channel_input.value(),
             max_line_history=self.max_line_history_input.value(),
         )
 
     @data.setter
-    def data(self, config: Config):
+    def data(self, config: Model):
         self.main_channel_input.setValue(config.main_channel)
         self.aux_channel_input.setValue(config.aux_channel)
         self.max_line_history_input.setValue(config.max_line_history)
