@@ -1,5 +1,6 @@
 import threading
 from queue import Queue
+
 import termqt
 from eros_core import CLIResponse, CommandFrame, Eros, ResponseType, TransportStates
 from pydantic import BaseModel

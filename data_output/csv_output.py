@@ -34,7 +34,7 @@ class CSVOutput:
         data = data.copy()
         # add time
         assert self.start_time is not None
-        
+
         data["time"] = time.time() - self.start_time
 
         if self.lines_received == 0:

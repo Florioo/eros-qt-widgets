@@ -7,10 +7,10 @@ __all__ = [
     "LoggerConfigWidget",
     "ErosTerminalConfigWidget",
     "QErosTraceConfigWidget",
-    "ErosConnectConfigWidget"
+    "ErosConnectConfigWidget",
 ]
-from .dockable_eros_terminal import QErosTerminalWidget, ErosTerminalConfigWidget
-from .dockable_eros_logger import QDockableErosLoggingWidget, LoggerConfigWidget
-from .dockable_eros_trace import QErosTraceWidget, QErosTraceConfigWidget
-from .dockable_eros_connect import QDockableErosConnectWidget,ErosConnectConfigWidget
+from .dockable_eros_connect import ErosConnectConfigWidget, QDockableErosConnectWidget
+from .dockable_eros_logger import LoggerConfigWidget, QDockableErosLoggingWidget
+from .dockable_eros_terminal import ErosTerminalConfigWidget, QErosTerminalWidget
+from .dockable_eros_trace import QErosTraceConfigWidget, QErosTraceWidget
 from .dockable_graph import QGraphWidget

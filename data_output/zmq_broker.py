@@ -1,6 +1,6 @@
 import threading
-import zmq as pyzmq
 
+import zmq as pyzmq
 from eros_core import Eros
 
 
@@ -8,7 +8,7 @@ class ErosZMQBroker:
     def __init__(self, ip, port) -> None:
         self.ip = ip
         self.port = port
-        self.eros: Eros|None = None
+        self.eros: Eros | None = None
 
         self.context = pyzmq.Context()
         self.pub_socket = self.context.socket(pyzmq.PUB)
@@ -40,7 +40,7 @@ class ErosZMQBroker:
         # transmit packets from eros to zmq
         for packet in self.poll_socket(self.sub_socket):
             if self.eros is not None:
-                self.eros.transmit_packet(None, packet) #type: ignore
+                self.eros.transmit_packet(None, packet)  # type: ignore
 
     def attach_eros(self, eros: Eros):
         self.eros = eros

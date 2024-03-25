@@ -1,14 +1,11 @@
+import collections
+import logging
 import time
-
-from PySide6.QtWidgets import QDockWidget
-from PySide6.QtWidgets import QDockWidget
-
-import pyqtgraph as pg
 from typing import Dict, List
 
 import pandas as pd
-import collections
-import logging
+import pyqtgraph as pg
+from PySide6.QtWidgets import QDockWidget
 
 
 class QGraphWidget(QDockWidget):
@@ -24,9 +21,9 @@ class QGraphWidget(QDockWidget):
         columns: List[str],
         index="time",
         max_points=1000,
-        max_update_rate:float=1,
+        max_update_rate: float = 1,
     ):
-        super().__init__(f"Graph {id}", objectName=f"graph_dock_{id}") #type: ignore
+        super().__init__(f"Graph {id}", objectName=f"graph_dock_{id}")  # type: ignore
         self.id = id
         self.max_update_rate = max_update_rate
         self.last_update = time.time()
@@ -77,16 +74,14 @@ class QGraphWidget(QDockWidget):
             if len(self.data[column]) == 0:
                 continue
 
-            self.plots[column].setData(
-                list(self.indexes[column]), list(self.data[column])
-            )
+            self.plots[column].setData(list(self.indexes[column]), list(self.data[column]))
 
     # If closed destroy the widget
     def closeEvent(self, event):
         self.deleteLater()
         self.graphWidget = None
-        self.plots = None #type: ignore
-        self.data = None #type: ignore
+        self.plots = None  # type: ignore
+        self.data = None  # type: ignore
         self.time_index = None
         event.accept()
 

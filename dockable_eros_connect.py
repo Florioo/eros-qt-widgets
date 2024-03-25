@@ -1,28 +1,23 @@
 from typing import Dict
 
-
-from PySide6.QtCore import Qt
+from eros_core import Eros, ErosSerial, ErosTCP, ErosUDP, ErosZMQ, TransportStates
+from pydantic import BaseModel
+from PySide6.QtCore import QRegularExpression, QSettings, Qt, QTimer, Signal
+from PySide6.QtGui import QRegularExpressionValidator
 from PySide6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
     QDockWidget,
+    QFormLayout,
+    QLineEdit,
     QPushButton,
     QWidget,
-    QWidget,
-    QComboBox,
-    QCheckBox,
-    QFormLayout,
-    QSpinBox,
-    QLineEdit,
 )
-from pydantic import BaseModel
 from qt_settings import QGenericSettingsWidget
-from PySide6.QtCore import Signal, QTimer, QSettings, QRegularExpression
-from PySide6.QtGui import QRegularExpressionValidator
-
-from eros_core import Eros, ErosSerial, TransportStates, ErosTCP, ErosUDP, ErosZMQ
 from si_prefix import si_format
 
-from .ui.eros_connect import Ui_Form
 from .data_output import ErosZMQBroker
+from .ui.eros_connect import Ui_Form
 
 UART_VID_MAP = {4292: "ESP32", 1027: "ESP-PROG"}
 
@@ -30,18 +25,18 @@ UART_VID_MAP = {4292: "ESP32", 1027: "ESP-PROG"}
 class QDockableErosConnectWidget(QDockWidget):
     STORAGE_LOCATION = "eros_connection"
 
-    eros:Eros|None = None
+    eros: Eros | None = None
     last_state = None
     zmq_broker = None
 
     eros_handle_signal = Signal(Eros)
     eros_connection_change_signal = Signal(TransportStates)
 
-    def __init__(self, parent, config_widget:"ErosConnectConfigWidget", settings:QSettings):
+    def __init__(self, parent, config_widget: "ErosConnectConfigWidget", settings: QSettings):
         super().__init__("Eros Connect", parent)
 
         self.main_widget = QWidget()
-        
+
         self.storage = settings
         self.config = config_widget.data
 
@@ -133,18 +128,13 @@ class QDockableErosConnectWidget(QDockWidget):
         return self.eros is not None
 
     def toggle_connect_button(self):
-        
         # Lock the tab widget
         if not self.is_connected():
             if self.ui.tabWidget.currentIndex() == 0:
-                self.eros = self.uart_handler.connect(
-                    auto_reconnect=self.config.auto_reconnect
-                )
+                self.eros = self.uart_handler.connect(auto_reconnect=self.config.auto_reconnect)
 
             elif self.ui.tabWidget.currentIndex() == 1:
-                self.eros = self.tcp_handler.connect(
-                    auto_reconnect=self.config.auto_reconnect
-                )
+                self.eros = self.tcp_handler.connect(auto_reconnect=self.config.auto_reconnect)
 
             elif self.ui.tabWidget.currentIndex() == 2:
                 self.eros = self.udp_handler.connect()
@@ -189,7 +179,7 @@ class QDockableErosConnectWidget(QDockWidget):
 
     def load_config(self):
         config = self.storage.value(self.STORAGE_LOCATION, {})
-        
+
         assert isinstance(config, Dict)
 
         if config == {}:
@@ -230,7 +220,7 @@ class UART_Handler:
 
         self.device_combobox.clear()
 
-        serial_ports = ErosSerial.get_serial_ports() #type: ignore
+        serial_ports = ErosSerial.get_serial_ports()  # type: ignore
 
         for port in serial_ports:
             if port.vid in UART_VID_MAP:
@@ -270,9 +260,7 @@ class UART_Handler:
         baud_rate = int(self.baud_combobox.currentText())
 
         # Connect to the device
-        eros_transport_handle = ErosSerial(
-            target_port, baud_rate, auto_reconnect=auto_reconnect
-        )
+        eros_transport_handle = ErosSerial(target_port, baud_rate, auto_reconnect=auto_reconnect)
         eros_handle = Eros(eros_transport_handle)
 
         self.save_config()
@@ -284,16 +272,14 @@ class UART_Handler:
 
         config = {
             "uart_baud": self.baud_combobox.currentText(),
-            "uart_device": self.uart_device_list[
-                self.device_combobox.currentIndex()
-            ].port,
+            "uart_device": self.uart_device_list[self.device_combobox.currentIndex()].port,
         }
 
         self.storage.setValue(self.STORAGE_LOCATION, config)
 
     def load_config(self):
         config = self.storage.value(self.STORAGE_LOCATION, {})
-        
+
         assert isinstance(config, dict)
 
         if config == {}:
@@ -337,7 +323,7 @@ class TCP_Handler:
 
     def load_config(self):
         config = self.storage.value(self.STORAGE_LOCATION, {})
-        
+
         assert isinstance(config, dict)
 
         if config == {}:
@@ -380,7 +366,7 @@ class UDP_Handler:
         config = self.storage.value(self.STORAGE_LOCATION, {})
 
         assert isinstance(config, dict)
-        
+
         if config == {}:
             return
 
@@ -422,7 +408,7 @@ class ZMQ_Handler:
 
     def load_config(self):
         config = self.storage.value(self.STORAGE_LOCATION, {})
-        
+
         assert isinstance(config, dict)
 
         if config == {}:
@@ -433,10 +419,7 @@ class ZMQ_Handler:
         self.port_lineedit.setText(config.get("port", "2000"))
 
 
-
-
 class ErosConnectConfigWidget(QGenericSettingsWidget):
-
     class config(BaseModel):
         zmq_enable: bool = False
         auto_reconnect: bool = True
@@ -464,7 +447,7 @@ class ErosConnectConfigWidget(QGenericSettingsWidget):
             zmq_enable=self.zmq_enable_input.isChecked(),
             auto_reconnect=self.auto_reconnect_input.isChecked(),
         )
-    
+
     @data.setter
     def data(self, config: config):
         self.zmq_enable_input.setChecked(config.zmq_enable)

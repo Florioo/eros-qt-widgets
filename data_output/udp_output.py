@@ -1,6 +1,6 @@
+import datetime
 import json
 import socket
-import datetime
 
 
 class UDPOutput:
@@ -28,15 +28,11 @@ class UDPOutput:
         for key, value in data.items():
             try:
                 data[key] = float(data[key])
-            except:
+            except Exception:
                 pass
 
         packet = {}
-        packet["time"] = (
-            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")
-            if timestamp is None
-            else timestamp
-        )
+        packet["time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f") if timestamp is None else timestamp
         packet["data"] = data
 
         self.sock.sendto(json.dumps(packet).encode("utf-8"), (self.ip, self.port))

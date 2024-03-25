@@ -1,4 +1,4 @@
-__all__ = ['CSVOutput', 'UDPOutput', 'ErosZMQBroker']
+__all__ = ["CSVOutput", "UDPOutput", "ErosZMQBroker"]
 
 from .csv_output import CSVOutput
 from .udp_output import UDPOutput

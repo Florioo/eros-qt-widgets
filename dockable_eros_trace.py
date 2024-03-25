@@ -36,7 +36,7 @@ class QErosTraceWidget(QDockWidget):
 
     csv_output: CSVOutput
 
-    def __init__(self, parent, config_widget: "QErosTraceConfigWidget",settings: QSettings) -> None:
+    def __init__(self, parent, config_widget: "QErosTraceConfigWidget", settings: QSettings) -> None:
         super().__init__("Eros Trace", parent)
 
         self.main_widget = QWidget()
@@ -68,7 +68,7 @@ class QErosTraceWidget(QDockWidget):
         self.data_signal.connect(self.update_table)
 
         # start update timer
-        self.update_timer = QTimer(singleShot=False, interval=100) # type: ignore
+        self.update_timer = QTimer(singleShot=False, interval=100)  # type: ignore
         self.update_timer.timeout.connect(self.update_ui)
         self.update_timer.start()
 
@@ -159,7 +159,7 @@ class QErosTraceWidget(QDockWidget):
             max_update_rate=self.config.max_update_rate,
         )
 
-        self.parent().addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, dockable_widget) # type: ignore
+        self.parent().addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, dockable_widget)  # type: ignore
 
         self.graphs.append(dockable_widget)
 
@@ -202,8 +202,9 @@ class QErosTraceWidget(QDockWidget):
             dockable_widget = QGraphWidget.from_dict(widget_config)
             if dockable_widget is None:
                 continue
-            self.parent().addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, dockable_widget) # type: ignore
+            self.parent().addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, dockable_widget)  # type: ignore
             self.graphs.append(dockable_widget)
+
 
 class QErosTraceConfigWidget(QGenericSettingsWidget):
     class Config(BaseModel):
@@ -215,7 +216,6 @@ class QErosTraceConfigWidget(QGenericSettingsWidget):
         max_update_rate: float = 15
         udp_auto_start: bool = False
 
-        
     def __init__(self) -> None:
         super().__init__()
 
@@ -254,15 +254,15 @@ class QErosTraceConfigWidget(QGenericSettingsWidget):
         self._layout.addRow("Trace Channel", self.trace_channel_input)
         # Add a label on the first column, which contains underlined text "UDP Settings"
 
-        self._layout.addRow(QLabel("UDP Settings", font=font)) #type: ignore
+        self._layout.addRow(QLabel("UDP Settings", font=font))  # type: ignore
         self._layout.addRow("UDP IP", self.udp_ip_input)
         self._layout.addRow("UDP Port", self.udp_port_input)
         self._layout.addWidget(self.udp_auto_start_input)
 
-        self._layout.addRow(QLabel("CSV Settings", font=font)) #type: ignore
+        self._layout.addRow(QLabel("CSV Settings", font=font))  # type: ignore
         self._layout.addRow("Path", self.csv_path_input)
 
-        self._layout.addRow(QLabel("Plot settings", font=font)) #type: ignore
+        self._layout.addRow(QLabel("Plot settings", font=font))  # type: ignore
         self._layout.addRow("Max points", self.max_point_history_input)
         self._layout.addRow("Max update rate", self.max_update_rate_input)
 
@@ -295,7 +295,7 @@ class QErosTraceConfigWidget(QGenericSettingsWidget):
             max_update_rate=self.max_update_rate_input.value(),
             udp_auto_start=self.udp_auto_start_input.isChecked(),
         )
-    
+
     @data.setter
     def data(self, config: Config):
         self.udp_ip_input.setText(config.udp_ip)
