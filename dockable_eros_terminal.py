@@ -1,6 +1,7 @@
 import threading
 from queue import Queue
 
+import termqt  # type: ignore  # noqa: F401
 from eros_core import CLIResponse, CommandFrame, Eros, ResponseType, TransportStates
 from pydantic import BaseModel
 from qt_settings import QGenericSettingsWidget

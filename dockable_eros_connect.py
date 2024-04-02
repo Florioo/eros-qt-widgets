@@ -2,6 +2,7 @@ from typing import Dict
 
 from eros_core import Eros, ErosSerial, ErosTCP, ErosUDP, ErosZMQ, TransportStates
 from pydantic import BaseModel
+from qt_settings import QGenericSettingsWidget
 from qtpy.QtCore import QRegularExpression, QSettings, Qt, QTimer, Signal
 from qtpy.QtGui import QRegularExpressionValidator
 from qtpy.QtWidgets import (
@@ -13,7 +14,6 @@ from qtpy.QtWidgets import (
     QPushButton,
     QWidget,
 )
-from qt_settings import QGenericSettingsWidget
 from si_prefix import si_format
 
 from .data_output import ErosZMQBroker
@@ -148,6 +148,7 @@ class QDockableErosConnectWidget(QDockWidget):
             assert self.eros is not None
 
             self.eros.close()
+            self.eros_handle_signal.emit(None)
             self.eros = None
 
         if self.zmq_broker is not None:
